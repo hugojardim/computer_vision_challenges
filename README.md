@@ -27,9 +27,3 @@ O objetivo é construir todas as etapas do pipeline, desde a ingestão dos dados
 ---
 
 Este projeto proporciona uma experiência prática e abrangente, unindo a implementação de algoritmos clássicos e o desenvolvimento de soluções completas em machine learning.
-
-Citations:
-[1] https://en.wikipedia.org/wiki/Iterative_closest_point
-
----
-Resposta do Perplexity: pplx.ai/share

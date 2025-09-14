@@ -1,36 +1,66 @@
-#  desafios-de-visao-computacional
+# Desafios de Visão Computacional
 
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)
 ![Open3D](https://img.shields.io/badge/Open3D-4B9B7A.svg?style=flat)
-![Trimesh](https://img.shields.io/badge/Trimesh-E94E36.svg?style=flat)
+![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8.svg?style=flat)
 ![Jupyter](https://img.shields.io/badge/Jupyter-F37626.svg?style=flat&logo=Jupyter&logoColor=white)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hugojardim/computer_vision_challenges/blob/main/icp_challenge/pipeline.ipynb)
 
-Este repositório contém soluções para desafios de Visão Computacional, com foco principal no processamento e alinhamento de dados 3D, como nuvens de pontos.
+Este repositório contém soluções para desafios de Visão Computacional, com foco em processamento 3D e reconhecimento facial.
 
-## 챌린지 1: Alinhamento de Nuvens de Pontos com ICP
+## 🎯 Desafios
 
-O principal desafio abordado neste projeto é o **alinhamento sequencial de nuvens de pontos 3D** do dataset KITTI. O objetivo é estimar a trajetória de um veículo (odometria) através do alinhamento sucessivo de "frames" de nuvens de pontos capturados por um sensor LiDAR.
+Este projeto é composto por dois desafios principais:
 
-O notebook `icp_challenge/pipeline.ipynb` implementa um pipeline completo para resolver este problema.
+1.  **Alinhamento de Nuvens de Pontos com ICP**: Estimativa de trajetória de um veículo (odometria) a partir do alinhamento sequencial de nuvens de pontos 3D do dataset KITTI.
+2.  **Busca de Pessoas com Máscara**: Um sistema de Machine Learning para buscar e identificar pessoas pela imagem do rosto, mesmo quando estão usando máscaras de proteção.
 
-### 📝 Descrição do Pipeline
+---
 
-1.  **Carregamento de Dados**: As nuvens de pontos sequenciais do dataset KITTI e os dados de `ground_truth` (trajetória real) são carregados.
-2.  **Pré-processamento**: As nuvens de pontos são convertidas para o formato do Open3D e preparadas para o alinhamento.
-3.  **Alinhamento com ICP**: O algoritmo **Iterative Closest Point (ICP)** é aplicado para estimar a transformação (rotação e translação) entre nuvens de pontos consecutivas.
-4.  **Estimativa de Trajetória**: As transformações estimadas são acumuladas para reconstruir a trajetória do veículo.
-5.  **Avaliação**: A trajetória estimada é comparada com a trajetória `ground_truth` para avaliar a precisão do algoritmo.
-6.  **Visualização**: Os resultados, incluindo as nuvens de pontos alinhadas e a comparação das trajetórias, são visualizados em 3D.
+### Desafio 1: Alinhamento de Nuvens de Pontos com ICP
+
+O principal objetivo deste desafio é o **alinhamento sequencial de nuvens de pontos 3D** do dataset KITTI para estimar a trajetória de um veículo. O notebook `icp_challenge/pipeline.ipynb` implementa um pipeline completo para resolver este problema.
+
+#### 📝 Descrição do Pipeline
+
+1.  **Carregamento de Dados**: Nuvens de pontos sequenciais do dataset KITTI e dados de `ground_truth` (trajetória real).
+2.  **Pré-processamento**: Conversão das nuvens de pontos para o formato Open3D.
+3.  **Alinhamento com ICP**: Aplicação do algoritmo **Iterative Closest Point (ICP)** para estimar a transformação entre nuvens de pontos consecutivas.
+4.  **Estimativa de Trajetória**: Acumulação das transformações para reconstruir a trajetória do veículo.
+5.  **Avaliação e Visualização**: Comparação da trajetória estimada com a `ground_truth` e visualização 3D dos resultados.
+
+#### 📈 Resultados Esperados
+
+O resultado final é uma visualização 3D que mostra a trajetória real (`ground_truth`), a trajetória estimada pelo pipeline e a sobreposição das nuvens de pontos alinhadas, permitindo uma avaliação completa da acurácia.
+
+---
+
+### Desafio 2: Busca de Pessoas por Rosto com Máscara
+
+Este desafio foca na criação de um sistema de Machine Learning para identificar pessoas a partir de imagens de seus rostos, mesmo com a presença de máscaras faciais.
+
+#### 📝 Descrição do Pipeline
+
+1.  **Detecção Facial**: Localização de rostos nas imagens de entrada usando algoritmos robustos.
+2.  **Extração de Features (Embeddings)**: Uso de uma Rede Neural Convolucional (CNN), FaceNet, para extrair um vetor de características único do rosto, focando em regiões não oclusas pela máscara (olhos, nariz, etc.).
+3.  **Criação de Banco de Dados**: Armazenamento dos *embeddings* de um conjunto de imagens de referência.
+4.  **Busca por Similaridade**: Ao receber uma nova imagem, o sistema extrai o *embedding* do rosto e o compara com o banco de dados usando métricas como a distância de cosseno para encontrar a correspondência mais próxima.
+
+#### 📈 Resultados Esperados
+
+O sistema deve ser capaz de retornar a identidade correta de uma pessoa em uma imagem de consulta, mesmo que ela esteja usando uma máscara, com um alto grau de precisão.
+
+---
 
 ### 🛠️ Tecnologias e Bibliotecas
 
 -   **Python**: Linguagem principal do projeto.
--   **Open3D**: Uma biblioteca moderna para processamento de dados 3D. Utilizada para visualização e implementação do ICP.
--   **Trimesh**: Biblioteca para carregar e manipular malhas 3D e nuvens de pontos (arquivos `.obj`).
+-   **Open3D / Trimesh**: Para processamento de dados 3D no desafio de ICP.
+-   **OpenCV**: Para processamento de imagem e detecção facial.
+-   **TensorFlow / PyTorch**: Para carregar e utilizar os modelos de deep learning de reconhecimento facial.
 -   **NumPy**: Para manipulação eficiente de arrays e operações matemáticas.
--   **Matplotlib**: Para plotar gráficos 2D/3D, como a comparação das trajetórias.
--   **Jupyter Notebook**: Para desenvolvimento interativo e documentação do processo.
+-   **Matplotlib**: Para plotar gráficos e visualizações.
+-   **Jupyter Notebook**: Para desenvolvimento interativo e documentação.
 
 ### 🚀 Como Executar
 
@@ -41,31 +71,23 @@ O notebook `icp_challenge/pipeline.ipynb` implementa um pipeline completo para r
     ```
 
 2.  **Instale as dependências:**
-    O notebook `icp_content/pipeline.ipynb` contém os comandos de instalação. É recomendado usar um ambiente virtual.
+    É recomendado usar um ambiente virtual. As dependências específicas de cada desafio podem ser encontradas nos respectivos notebooks.
     ```bash
-    pip install open3d trimesh numpy matplotlib jupyter
+    pip install open3d trimesh opencv-python tensorflow numpy matplotlib jupyter
     ```
-    *Nota: A instalação do `open3d` pode variar dependendo do seu sistema operacional e hardware.*
+    *Nota: A instalação de algumas bibliotecas pode variar dependendo do seu sistema operacional.*
 
-3.  **Estrutura de Dados:**
-    Certifique-se de que o dataset KITTI esteja na pasta `KITTI-Sequence/` e o arquivo `ground_truth.npy` esteja no diretório raiz do desafio, conforme esperado pelo notebook.
-
-4.  **Execute o Notebook:**
-    Abra e execute o notebook principal para ver todo o processo.
+3.  **Execute os Notebooks:**
+    Navegue até a pasta do desafio desejado e execute o notebook principal.
     ```bash
+    # Para o desafio de ICP
     jupyter notebook icp_challenge/pipeline.ipynb
+
+    # Para o desafio de reconhecimento facial (exemplo)
+    # jupyter notebook face_mask_search/face_recognition.ipynb
     ```
     Ou execute diretamente no Google Colab usando o badge no topo do README.
 
-### 📈 Resultados Esperados
-
-O resultado final é uma visualização 3D que mostra:
--   A trajetória real (`ground_truth`).
--   A trajetória estimada pelo pipeline de ICP.
--   Uma sobreposição das nuvens de pontos alinhadas.
-
-Isso permite uma avaliação qualitativa e quantitativa da acurácia da odometria estimada.
-
-## ✒️ Autor
+### ✒️ Autor
 
 -   **Hugo Jardim** - [hugojardim](https://github.com/hugojardim)

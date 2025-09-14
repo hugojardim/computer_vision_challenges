@@ -1,29 +1,71 @@
-## Descrição do Projeto
+#  desafios-de-visao-computacional
 
-Este projeto é composto por dois desafios práticos em visão computacional e ciência de dados, com foco em algoritmos fundamentais e pipelines de machine learning.
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)
+![Open3D](https://img.shields.io/badge/Open3D-4B9B7A.svg?style=flat)
+![Trimesh](https://img.shields.io/badge/Trimesh-E94E36.svg?style=flat)
+![Jupyter](https://img.shields.io/badge/Jupyter-F37626.svg?style=flat&logo=Jupyter&logoColor=white)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hugojardim/computer_vision_challenges/blob/main/icp_challenge/pipeline.ipynb)
 
-**Desafio 1: Implementação Manual do Algoritmo ICP para Análise de Rotas de Automóveis**
+Este repositório contém soluções para desafios de Visão Computacional, com foco principal no processamento e alinhamento de dados 3D, como nuvens de pontos.
 
-O objetivo deste desafio é implementar, do zero, o algoritmo Iterative Closest Point (ICP) para análise e alinhamento de rotas de automóveis. O ICP é um algoritmo amplamente utilizado para registrar e alinhar nuvens de pontos, minimizando a diferença entre dois conjuntos de pontos em 2D ou 3D. No contexto deste projeto, cada rota de automóvel será representada como uma nuvem de pontos, e o ICP será utilizado para alinhar trajetórias distintas, permitindo comparações precisas entre diferentes percursos.
+## 챌린지 1: Alinhamento de Nuvens de Pontos com ICP
 
-Principais etapas do ICP:
+O principal desafio abordado neste projeto é o **alinhamento sequencial de nuvens de pontos 3D** do dataset KITTI. O objetivo é estimar a trajetória de um veículo (odometria) através do alinhamento sucessivo de "frames" de nuvens de pontos capturados por um sensor LiDAR.
 
-- Seleção de um conjunto de pontos de referência (rota base) e um conjunto de pontos fonte (rota a ser alinhada).
-- Para cada ponto da rota fonte, encontrar o ponto mais próximo na rota de referência.
-- Estimar a melhor transformação (rotação e translação) que minimize a distância entre os pares de pontos correspondentes.
-- Aplicar a transformação à rota fonte e repetir o processo até a convergência, ou seja, até que as diferenças sejam minimizadas.
-- O resultado é uma transformação refinada que alinha as duas rotas de forma ótima[1].
+O notebook `icp_challenge/pipeline.ipynb` implementa um pipeline completo para resolver este problema.
 
-**Desafio 2: Pipeline Completo para Detecção Facial com e sem Máscara**
+### 📝 Descrição do Pipeline
 
-O segundo desafio consiste em desenvolver um pipeline completo de machine learning para detecção facial, capaz de classificar se uma pessoa está usando máscara ou não. O pipeline deve ser implementado do zero, abrangendo as seguintes etapas:
+1.  **Carregamento de Dados**: As nuvens de pontos sequenciais do dataset KITTI e os dados de `ground_truth` (trajetória real) são carregados.
+2.  **Pré-processamento**: As nuvens de pontos são convertidas para o formato do Open3D e preparadas para o alinhamento.
+3.  **Alinhamento com ICP**: O algoritmo **Iterative Closest Point (ICP)** é aplicado para estimar a transformação (rotação e translação) entre nuvens de pontos consecutivas.
+4.  **Estimativa de Trajetória**: As transformações estimadas são acumuladas para reconstruir a trajetória do veículo.
+5.  **Avaliação**: A trajetória estimada é comparada com a trajetória `ground_truth` para avaliar a precisão do algoritmo.
+6.  **Visualização**: Os resultados, incluindo as nuvens de pontos alinhadas e a comparação das trajetórias, são visualizados em 3D.
 
-- **ETL (Extract, Transform, Load):** Coleta, pré-processamento e preparação dos dados de imagens faciais.
-- **Treinamento:** Desenvolvimento e treinamento de um modelo de classificação (por exemplo, CNN) para distinguir rostos com máscara de rostos sem máscara.
-- **Inferência:** Implementação de um sistema de inferência capaz de realizar predições em imagens inéditas, avaliando a presença ou ausência de máscara.
+### 🛠️ Tecnologias e Bibliotecas
 
-O objetivo é construir todas as etapas do pipeline, desde a ingestão dos dados até a avaliação do modelo, promovendo uma compreensão aprofundada de cada fase do fluxo de trabalho em projetos de visão computacional.
+-   **Python**: Linguagem principal do projeto.
+-   **Open3D**: Uma biblioteca moderna para processamento de dados 3D. Utilizada para visualização e implementação do ICP.
+-   **Trimesh**: Biblioteca para carregar e manipular malhas 3D e nuvens de pontos (arquivos `.obj`).
+-   **NumPy**: Para manipulação eficiente de arrays e operações matemáticas.
+-   **Matplotlib**: Para plotar gráficos 2D/3D, como a comparação das trajetórias.
+-   **Jupyter Notebook**: Para desenvolvimento interativo e documentação do processo.
 
----
+### 🚀 Como Executar
 
-Este projeto proporciona uma experiência prática e abrangente, unindo a implementação de algoritmos clássicos e o desenvolvimento de soluções completas em machine learning.
+1.  **Clone o repositório:**
+    ```bash
+    git clone https://github.com/hugojardim/computer_vision_challenges.git
+    cd computer_vision_challenges
+    ```
+
+2.  **Instale as dependências:**
+    O notebook `icp_content/pipeline.ipynb` contém os comandos de instalação. É recomendado usar um ambiente virtual.
+    ```bash
+    pip install open3d trimesh numpy matplotlib jupyter
+    ```
+    *Nota: A instalação do `open3d` pode variar dependendo do seu sistema operacional e hardware.*
+
+3.  **Estrutura de Dados:**
+    Certifique-se de que o dataset KITTI esteja na pasta `KITTI-Sequence/` e o arquivo `ground_truth.npy` esteja no diretório raiz do desafio, conforme esperado pelo notebook.
+
+4.  **Execute o Notebook:**
+    Abra e execute o notebook principal para ver todo o processo.
+    ```bash
+    jupyter notebook icp_challenge/pipeline.ipynb
+    ```
+    Ou execute diretamente no Google Colab usando o badge no topo do README.
+
+### 📈 Resultados Esperados
+
+O resultado final é uma visualização 3D que mostra:
+-   A trajetória real (`ground_truth`).
+-   A trajetória estimada pelo pipeline de ICP.
+-   Uma sobreposição das nuvens de pontos alinhadas.
+
+Isso permite uma avaliação qualitativa e quantitativa da acurácia da odometria estimada.
+
+## ✒️ Autor
+
+-   **Hugo Jardim** - [hugojardim](https://github.com/hugojardim)
